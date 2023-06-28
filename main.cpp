@@ -1,6 +1,11 @@
+#include "PerlinNoise.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
- 
+
+sf::Uint8* generateFractal(float x, float y, float width, float height){
+    return new sf::Uint8[(int)(width * height * 4)];
+}
+
 int main(){
     sf::RenderWindow window(sf::VideoMode(800, 600), "fraccelerate");
     sf::View defaultView = window.getDefaultView();
@@ -23,6 +28,13 @@ int main(){
     title.setPosition(10, 10);
     title.setFillColor(sf::Color::White);
 
+    sf::Texture fractalTexture;
+    fractalTexture.update(generateFractal(0, 0, 500, 600));
+
+    sf::Sprite fractalSprite;
+    fractalSprite.setPosition(300, 0);
+    fractalSprite.setTexture(fractalTexture);
+
     while(window.isOpen()){
         window.clear();
         sf::Event event;
@@ -37,6 +49,7 @@ int main(){
             }
         }
 
+        window.draw(fractalSprite);
         window.draw(sidebar);
         window.draw(title);
         window.display();
